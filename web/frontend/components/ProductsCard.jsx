@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Page, Card, Form, TextField } from '@shopify/polaris';
 import { useAppBridge, SaveBar } from '@shopify/app-bridge-react';
-import {getSessionToken} from "@shopify/app-bridge-utils"; // For app instance
+// import {getSessionToken} from "@shopify/app-bridge-utils"; // For app instance
 
 export default function ProductsCard() {
     const [notes, setNotes] = useState('');
@@ -22,16 +22,19 @@ export default function ProductsCard() {
     };
 
     const save = async () => {
-        // const token = await getSessionToken(shopify);
+        const token = await window.shopify.idToken();
 
         try {
             const resp = await fetch("http://127.0.0.1:8000/api/custom/save", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    // "Authorization": `Bearer ${token}`  ,
+
                 },
                 body: JSON.stringify({
-                    custom_text: notes
+                    custom_text: notes,
+                    // token: getSessionToken()
                 }),
             });
 

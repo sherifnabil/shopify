@@ -17,3 +17,4 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [ "https://example.com/api/auth" ]
+direct_api_mode="offline"

@@ -10,14 +10,17 @@ use Shopify\Clients\Graphql;
 
 class CustomTextController extends Controller
 {
-    public function addText(Request $request): JsonResponse
+    public function addText(Request $request, Session $session): JsonResponse
     {
-        /**+
-         *  @var Session $shopifySession
-         */
-        $shopifySession = $request->get('shopifySession');
-        $dbSession = \App\Models\Session::where('shopify_session_id', $shopifySession->getId())->first();
-//        $resource = CustomText::create(['text' => $request->custom_text]);
+//        /**+
+//         *
+//         */
+//        $shopifySession = $request->get('shopifySession');
+//        $dbSession = \App\Models\Session::where('shopify_session_id', $shopifySession->getId())->first();
+//        print_r();
+//        exit;
+        dd($request->all());
+        $resource = CustomText::create(['text' => $request->custom_text]);
         $shop = $session->shop;
         $client = new Graphql($shop, $session->accessToken);
 
