@@ -18,4 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return "Hello API";
 });
-Route::post('custom/save', [CustomTextController::class, 'addText']);
+
+Route::post('custom/save', [CustomTextController::class, 'addText'])->middleware('shopify.auth');

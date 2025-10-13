@@ -4,6 +4,7 @@ use App\Exceptions\ShopifyProductCreatorException;
 use App\Lib\AuthRedirection;
 use App\Lib\EnsureBilling;
 use App\Lib\ProductCreator;
+use App\Models\CustomText;
 use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Shopify\Auth\OAuth;
 use Shopify\Auth\Session as AuthSession;
+use Shopify\Clients\Graphql;
 use Shopify\Clients\HttpHeaders;
 use Shopify\Clients\Rest;
 use Shopify\Context;
@@ -32,6 +34,20 @@ use Shopify\Webhooks\Topics;
 | proxy rule for them in web/frontend/vite.config.js
 |
 */
+
+
+
+Route::get(
+    'testing',
+    function (Request $request) {
+
+
+        $resource = CustomText::all();
+
+
+        exit;
+    }
+);
 
 Route::fallback(function (Request $request) {
     if (Context::$IS_EMBEDDED_APP &&  $request->query("embedded", false) === "1") {
@@ -91,6 +107,7 @@ Route::get('/api/products/count', function (Request $request) {
     $session = $request->get('shopifySession'); // Provided by the shopify.auth middleware, guaranteed to be active
 
     $client = new Rest($session->getShop(), $session->getAccessToken());
+//    $client = new graphQl($session->getShop(), $session->getAccessToken());
     $result = $client->get('products/count');
 
     return response($result->getDecodedBody());

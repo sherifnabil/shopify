@@ -5,23 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\CustomText;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
+use Shopify\Auth\Session;
+use Shopify\Clients\Graphql;
 
 class CustomTextController extends Controller
 {
     public function addText(Request $request): JsonResponse
     {
+        /**+
+         *  @var Session $shopifySession
+         */
+        $shopifySession = $request->get('shopifySession');
+        $dbSession = \App\Models\Session::where('shopify_session_id', $shopifySession->getId())->first();
+//        $resource = CustomText::create(['text' => $request->custom_text]);
+        $shop = $session->shop;
+        $client = new Graphql($shop, $session->accessToken);
 
+        $input = [
+            'namespace' => 'custom',
+            'key' => 'custom_note',
+            'type' => 'single_line_text_field',
+            'ownerType' => 'CUSTOMER',
+            'name' => $request->custom_text,
+        ];
 
-        // Artisan::call('migrate');
+        $query = <<<'GRAPHQL'
+        mutation metafieldDefinitionCreate($input: MetafieldDefinitionInput!) {
+            metafieldDefinitionCreate(metafieldDefinition: $input) {
+                metafieldDefinition {
+                    id
+                    namespace
+                    key
+                    type
+                }
+                userErrors {
+                    field
+                    message
+                }
+            }
+        }
+        GRAPHQL;
 
-        $resource = CustomText::all();
+        $response = $client->request($query, ['input' => $input]);
 
-        print_r(
-            $request->toArray()
-        );
-        exit;
-        return new JsonResponse($resource);
+        if (isset($response['data']['metafieldDefinitionCreate']['userErrors'][0])) {
+            return response()->json(['error' => $response['data']['metafieldDefinitionCreate']['userErrors']], 400);
+        }
+
+        return response()->json($response['data']['metafieldDefinitionCreate']['metafieldDefinition']);
     }
 }

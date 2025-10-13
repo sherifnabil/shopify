@@ -13,7 +13,7 @@ import { useTranslation, Trans } from "react-i18next";
 
 import { trophyImage } from "../assets";
 
-import { ProductsCard } from "../components";
+import  ProductsCard  from "../components/ProductsCard.jsx";
 
 export default function HomePage() {
   const { t } = useTranslation();
