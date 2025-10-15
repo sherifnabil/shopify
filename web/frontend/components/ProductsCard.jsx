@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Page, Card, TextField } from '@shopify/polaris';
+import {Page, Card, TextField, Banner, SkeletonBodyText, Layout} from '@shopify/polaris';
 import { useAppBridge, SaveBar } from '@shopify/app-bridge-react';
 export default function ProductsCard() {
     const [notes, setNotes] = useState('');
     const shopify = useAppBridge();
+    const extensionActivated = useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect( () => {
         const fetchData = async () => {
@@ -18,6 +20,7 @@ export default function ProductsCard() {
 
             const json = await resp.json();
             setNotes(json.metafield.value)
+            setLoading(false)
         };
         fetchData()
     }, []);
@@ -67,14 +70,22 @@ export default function ProductsCard() {
     };
 
     return (
-        <Page title="Product Card">
-            <Card sectioned>
+        <Page title="Meta Field Card">
+                { loading &&
+                    <Layout.Section>
+                        <Card sectioned>
+                            <SkeletonBodyText   lines={2} />
+                        </Card>
+                    </Layout.Section>
+                }
+                { !loading &&
                     <TextField
                         label="Notes"
                         value={notes}
                         onChange={handleChange}
                     />
-            </Card>
+                }
+
             <SaveBar id="my-save-bar">
                 <button variant="primary" onClick={handleSave}></button>
                 <button onClick={handleDiscard}></button>
