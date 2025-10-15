@@ -2,9 +2,9 @@ import {
   Card,
   Page,
   Layout,
-  TextContainer,
+  // TextContainer,
   Image,
-  Stack,
+  // Stack,
   Link,
   Text,
 } from "@shopify/polaris";
