@@ -9,6 +9,9 @@
 }
 {% endschema %}
 {% assign avg_rating = block.settings.product.metafields.demo.avg_rating.value | round %}
+{% assign custom_text = shop.metafields.app_settings.custom_text %}
+<h1> {{shop.metafields.app_settings.custom_text}} </h1>
+
 <span style="color:{{ block.settings.colour }}">
   {% render 'stars', rating: avg_rating %}
 </span>

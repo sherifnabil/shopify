@@ -1,3 +1,3 @@
-alert("hi shopify user");
+// alert("hi shopify user");
 
 console.log("Hello from console");
