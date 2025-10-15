@@ -19,4 +19,5 @@ Route::get('/', function () {
     return "Hello API";
 });
 
-Route::post('custom/save', [CustomTextController::class, 'addText'])->middleware('shopify.auth');
+Route::post('custom/save', [CustomTextController::class, 'saveNote'])->middleware('shopify.auth');
+Route::post('custom/get', [CustomTextController::class, 'get'])->middleware('shopify.auth');
