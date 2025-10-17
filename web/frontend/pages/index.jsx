@@ -1,6 +1,6 @@
 import {
     Page,
-    Layout,
+    Layout, Button,
     Banner, Card, SkeletonBodyText
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
@@ -14,15 +14,14 @@ export default function HomePage() {
     const { t } = useTranslation();
     const { extensionActivated, isLoading } = useAppStatus();
     const shopify = useAppBridge();
+
     const shopifyAppId = shopify.config.shop.replace('.myshopify.com', '')
-    console.log('shopify', shopify)
-    // 🔹 Show skeleton while loading
-    // console.log('window.shopifyAppId', shopify.config.shop)
     return (
     <Page narrowWidth>
       <TitleBar title={t("HomePage.title")} />
       <Layout>
         <Layout.Section>
+
             { isLoading &&
                 <Layout.Section>
                     <Card sectioned>

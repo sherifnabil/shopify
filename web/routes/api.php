@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbandonedCartController;
 use App\Http\Controllers\AppThemeExtension;
 use App\Http\Controllers\CustomTextController;
 use Illuminate\Http\Request;
@@ -24,3 +25,4 @@ Route::get('app/status', [AppThemeExtension::class, 'checkAppStatus'])->middlewa
 
 Route::post('custom/save', [CustomTextController::class, 'saveNote'])->middleware('shopify.auth');
 Route::post('custom/get', [CustomTextController::class, 'get'])->middleware('shopify.auth');
+Route::get('abandoned/list', [AbandonedCartController::class, 'list'])->middleware('shopify.auth');

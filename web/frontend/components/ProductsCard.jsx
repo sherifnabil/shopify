@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {Page, Card, TextField, Banner, SkeletonBodyText, Layout} from '@shopify/polaris';
+import { useNavigate } from "react-router-dom";
+import {Page, Card, FormLayout, TextField, Banner, SkeletonBodyText, Layout, Button, Frame} from '@shopify/polaris';
+
 import { useAppBridge, SaveBar } from '@shopify/app-bridge-react';
+
 export default function ProductsCard() {
     const [notes, setNotes] = useState('');
     const shopify = useAppBridge();
-    const extensionActivated = useState(true);
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
-    useEffect( () => {
+    useEffect(() => {
+
         const fetchData = async () => {
             // const token = await getSessionToken(app);
 
@@ -38,11 +42,6 @@ export default function ProductsCard() {
         setNotes('')
         shopify.saveBar.hide('my-save-bar');
     };
-
-    // const host =
-    //     new URLSearchParams(location.search).get('host') ||
-    //     window.__SHOPIFY_DEV_HOST;
-
     const save = async () => {
 
         try {
@@ -70,27 +69,36 @@ export default function ProductsCard() {
     };
 
     return (
-        <Page title="Meta Field Card">
-                { loading &&
-                    <Layout.Section>
-                        <Card sectioned>
-                            <SkeletonBodyText   lines={2} />
-                        </Card>
-                    </Layout.Section>
-                }
-                { !loading &&
-                    <TextField
-                        label="Notes"
-                        value={notes}
-                        onChange={handleChange}
-                    />
-                }
+        <Page
+            title="Store Front Meta Field"
+            subtitle="Notes Store Front."
+            fullWidth>
 
-            <SaveBar id="my-save-bar">
-                <button variant="primary" onClick={handleSave}></button>
-                <button onClick={handleDiscard}></button>
-            </SaveBar>
+            <Card sectioned>
+                <FormLayout>
+                    {loading &&
+                        <Layout.Section>
+                            <Card sectioned>
+                                <SkeletonBodyText lines={2}/>
+                            </Card>
+                        </Layout.Section>
+                    }
+                    {!loading &&
+                        <TextField
+                            label="Notes"
+                            value={notes}
+                            onChange={handleChange}
+                        />
+                    }
+                    <SaveBar id="my-save-bar">
+                        <button variant="primary" onClick={handleSave}></button>
+                        <button onClick={handleDiscard}></button>
+                    </SaveBar>
+                </FormLayout>
+            </Card>
+
 
         </Page>
-    );
-}
+
+);
+};

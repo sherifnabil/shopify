@@ -15,7 +15,8 @@ export default function App() {
                     <QueryProvider>
                         <NavMenu>
                             <Link to="/" rel="home"/>
-                            <Link to="/pagename">{t("NavigationMenu.pageName")}</Link>
+                            {/*<Link to="/pagename">{t("NavigationMenu.pageName")}</Link>*/}
+                            <Link to="/abandoned-carts">{t("NavigationMenu.abandoned")}</Link>
                         </NavMenu>
                         <Routes pages={pages}/>
                     </QueryProvider>
